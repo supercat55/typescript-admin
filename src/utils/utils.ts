@@ -20,6 +20,14 @@ class Utils {
     return isEmpty;
   }
 
+  public static ObjectToUrl(obj: string): string {
+    return Object.keys(obj).map(key => {
+      if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') {
+        return key + '=' + encodeURIComponent(obj[key]);
+      }
+    }).join('&'); 
+  }
+
   public static MergeObject(objArr: any[]): object {
     return objArr ? Object.assign({}, ...objArr) : {};
   }
@@ -27,6 +35,16 @@ class Utils {
   public static GetPageQuery(): string {
     return parse(window.location.href.split('?')[1]);
   }
+
+  public static JsonToUrl = (json: { [x: string]: string; }) => {
+    if (!json) throw new Error('json对象未定义或为空');
+  
+    return Object.keys(json).map((key, index) => {
+      if (json[key] !== null && json[key] !== undefined && json[key] !== '') {
+        return key + '=' + encodeURIComponent(json[key]);
+      }
+    }).join('&');
+  };
 }
 
 export { Utils };

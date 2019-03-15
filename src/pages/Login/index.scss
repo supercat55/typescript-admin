@@ -1,32 +1,33 @@
 .login {
   margin-top: 40px;
-  width: 368px;
+  width: 408px;
   height: auto;
   :global {
-    .ant-tabs .ant-tabs-bar {
-      border-bottom: 0;
-      margin-bottom: 24px;
-      text-align: center;
-    }
+    // .ant-tabs .ant-tabs-bar {
+    //   border-bottom: 0;
+    //   margin-bottom: 24px;
+    //   text-align: center;
+    // }
   
     .ant-form-item {
-      margin-bottom: 24px;
+      padding: 8px 0;
     }
   }
 }
 
-.captchaWrap {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  input {
-    flex: 8;
-  }
-  .captchaImage {
-    flex: 2;
-    height: 38px;
-    margin-left: 10px;
+.content {
+  width: 500px;
+}
+
+.forgot {
+  width: 100%;
+  display: inline-block;
+  color: #1890ff;
+  transition: .3s;
+  text-align: right;
+  cursor: pointer;
+  &:hover {
+    opacity: .9;
   }
 }
 

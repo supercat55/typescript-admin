@@ -22,8 +22,8 @@ export default {
   publicPath: './',
   // history: 'hash',
   proxy: {
-    '/api': {
-      target: '',
+    '/pms': {
+      target: 'http://dev-ccb.pmssaas.com',
       changeOrigin: true
     }
   }

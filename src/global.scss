@@ -14,3 +14,17 @@ html, body, #root {
 body {
   margin: 0;
 }
+
+a {
+	text-decoration: none;
+	cursor: pointer;
+}
+
+ul {
+	list-style: none;
+}
+
+img {
+	display: block;
+	border: none;
+}
