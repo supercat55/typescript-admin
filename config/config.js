@@ -1,3 +1,5 @@
+import pageRoutes from './router.config';
+
 export default {
   plugins: [
     [
@@ -5,7 +7,7 @@ export default {
       {
         antd: true,
         dva: true,
-        dybamicImport: false,
+        dynamicImport: false,
         title: '建行后台',
         dll: false,
         hardSource: false,
@@ -15,13 +17,14 @@ export default {
       }
     ]
   ],
+  routes: pageRoutes,
   hash: true,
   publicPath: './',
-  history: 'hash',
+  // history: 'hash',
   proxy: {
     '/api': {
       target: '',
       changeOrigin: true
     }
   }
-}
+};

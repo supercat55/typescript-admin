@@ -1,0 +1,36 @@
+.login {
+  margin-top: 40px;
+  width: 368px;
+  height: auto;
+  :global {
+    .ant-tabs .ant-tabs-bar {
+      border-bottom: 0;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+  
+    .ant-form-item {
+      margin-bottom: 24px;
+    }
+  }
+}
+
+.captchaWrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  input {
+    flex: 8;
+  }
+  .captchaImage {
+    flex: 2;
+    height: 38px;
+    margin-left: 10px;
+  }
+}
+
+.loginBtn {
+  margin-top: 40px;
+  width: 100%;
+}

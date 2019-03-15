@@ -1,3 +1,14 @@
 {
-  "extends": "eslint-config-umi"
+  "extends": "eslint-config-umi",
+  "rules": {
+    "semi": [2, "always"],
+    "no-var": 0,
+    "comma-dangle": ["off"],
+    "indent": ["error", 2],
+    "semi-spacing": [0, { "before": false, "after": true }],
+    "quotes": [1, "single"],
+    "key-spacing": [0, { "beforeColon": false, "afterColon": true }],
+    "no-spaced-func": 2,
+    "eqeqeq": 2
+  }
 }
