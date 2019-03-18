@@ -1,0 +1,12 @@
+@mixin text-overflow($width, $isMultiple: false) {
+  width: $width;
+  overflow: hidden;
+  @if $isMultiple == true {
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+  } @else {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

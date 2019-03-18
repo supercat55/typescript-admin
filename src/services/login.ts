@@ -28,4 +28,15 @@ export async function queryAdminLogin(params) {
       paramStr: JSON.stringify(params)
     }
   })
+};
+
+export async function queryUpdateToken(params) {
+  let url = URL.UPDATE_TOKEN
+
+  return request(url, {
+    method: 'POST',
+    body: {
+      paramStr: JSON.stringify(params)
+    }
+  })
 }

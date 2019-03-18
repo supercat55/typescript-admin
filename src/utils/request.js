@@ -101,7 +101,7 @@ export default function request(url, option) {
     }
 
     newOptions.body = Utils.JsonToUrl(options.body);
-    console.log(newOptions);
+
     break;
   case 'IMAGE':
     _url = `${url}${!options ? '' : '?' + Utils.ObjectToUrl({ params: JSON.stringify(options.params)})}`;
@@ -109,7 +109,7 @@ export default function request(url, option) {
     newOptions.method = 'GET';
     break;
   default:
-    _url = `${url}${Utils.IsEmptyObject(options) ? '' : '?' + Utils.ObjectToUrl({ params: JSON.stringify(options)})}`;
+    _url = `${url}${Utils.IsEmptyObject(options) ? '' : '?' + Utils.ObjectToUrl(options)}`;
     break;
   }
 

@@ -4,7 +4,7 @@
  *  @param    {String}    value
  */
 export const SetSessionStorage = (key: string, value: any = '') => {
-  if (!key || !value) return;
+  if (!key) return;
 
   sessionStorage.setItem(key, JSON.stringify(value));
 };
