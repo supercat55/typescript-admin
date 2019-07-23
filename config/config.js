@@ -8,7 +8,7 @@ export default {
         antd: true,
         dva: true,
         dynamicImport: false,
-        title: '建行后台',
+        title: 'ts-demo',
         dll: false,
         hardSource: false,
         routes: {
