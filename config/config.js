@@ -23,7 +23,7 @@ export default {
   // history: 'hash',
   proxy: {
     '/pms': {
-      target: 'http://ccb.pmssaas.com',
+      target: 'http://xxx.xxx.com',
       changeOrigin: true
     }
   }
