@@ -12,7 +12,7 @@ export const SetLocalStorage = (key: string, value: any) => {
  *  @param    {String}    key
  *  @returns  {Object|String}
  */
-export const GetLocalStorage = (key: string): object | string => {
+export const GetLocalStorage = (key: string): any=> {
   if (!key) return;
 
   let value = localStorage.getItem(key);

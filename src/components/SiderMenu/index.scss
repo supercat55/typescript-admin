@@ -8,23 +8,13 @@
 }
 
 .logo {
-  height: 64px;
-  line-height: 64px;
-  background: #002140;
-  padding-left: 24px;
+  width: 100%;
+  padding: 10px;
   overflow: hidden;
   img {
     display: inline-block;
     vertical-align: middle;
     height: 32px;
-  }
-  h1 {
-    color: #fff;
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 20px;
-    margin: 0 0 0 12px;
-    font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    font-weight: 400;
+    margin: 4px;
   }
 }

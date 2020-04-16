@@ -1,34 +1,30 @@
-import { SetSessionStorage, GetSessionStorage, RemoveSessionStorage, RemoveAllSessionStorage } from './storage/session';
 import { SetLocalStorage, GetLocalStorage, RemoveLocalStorage, RemoveAllLocalStorage } from './storage/local';
+import { SetSessionStorage, GetSessionStorage, RemoveSessionStorage, RemoveAllSessionStorage } from './storage/session';
 
-// token
+// 用户token
 export const SetGlobalToken = (token: string) => SetSessionStorage('globalToken', token);
 export const GetGlobalToken= () => GetSessionStorage('globalToken');
 export const RemoveGlobalToken = () => RemoveSessionStorage('globalToken');
 
 
-// userInfo
-export const SetAccountInfo = (info: any) => SetLocalStorage('accountInfo', info);
-export const GetAccountInfo= () => GetLocalStorage('accountInfo');
-export const RemoveAccountInfo = () => RemoveLocalStorage('accountInfo');
+// 用户登录信息
+export const SetAccountInfo = (info: any) => SetSessionStorage('accountInfo', info);
+export const GetAccountInfo= () => GetSessionStorage('accountInfo');
+export const RemoveAccountInfo = () => RemoveSessionStorage('accountInfo');
 
+// 用户基本信息
+export const SetUserBaseInfo = (info: any) => SetSessionStorage('baseInfo', info);
+export const GetUserBaseInfo= () => GetSessionStorage('baseInfo');
+export const RemoveUserBaseInfo = () => RemoveSessionStorage('baseInfo');
 
-// identityType
-export const SetIdentityType = (identityType: any) => SetSessionStorage('identityType', identityType);
-export const GetIdentityType= () => GetSessionStorage('identityType');
-export const RemoveIdentityType = () => RemoveSessionStorage('identityType');
+// 全局侧边栏信息
+export const SetModulesList = (modules: any) => SetSessionStorage('modulesList', modules);
+export const GetModulesList= () => GetSessionStorage('modulesList');
+export const RemoveModulesList = () => RemoveSessionStorage('modulesList');
 
-// propertyInfo (超级管理员信息)
-export const SetPropertyInfo = (propertyInfo: any) => SetSessionStorage('propertyInfo', propertyInfo);
-export const GetPropertyInfo= () => GetSessionStorage('propertyInfo');
-export const RemovePropertyInfo = () => RemoveSessionStorage('propertyInfo');
+// 清空所有storage
+export const RemoveAllStorage = () => {
+  RemoveAllLocalStorage();
+  RemoveAllSessionStorage();
+};
 
-// propertyInfo (园区管理员信息)
-export const SetGardenInfo = (gardenInfo: any) => SetSessionStorage('gardenInfo', gardenInfo);
-export const GetGardenInfo= () => GetSessionStorage('gardenInfo');
-export const RemoveGardenInfo = () => RemoveSessionStorage('gardenInfo');
-
-// propertyInfo (企业管理员信息)
-export const SetCompanyInfo = (companyInfo: any) => SetSessionStorage('companyInfo', companyInfo);
-export const GetCompanyInfo= () => GetSessionStorage('companyInfo');
-export const RemoveCompanyInfo = () => RemoveSessionStorage('companyInfo');

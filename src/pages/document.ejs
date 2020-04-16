@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <title>万家社区商户运营管理后台</title>
+  <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.6&key=5afdec09d4d1eceff61dc0f0301ab5d5"></script>
+  <script type="text/javascript">
+    let geocoder;
+    if (!geocoder) {
+      window['AMap'].plugin('AMap.Geocoder', () => {
+        geocoder = new AMap.Geocoder('app');
+      });
+    }
+    // 将geocoder对象放入window对象中
+    window.geocoder = geocoder;
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>

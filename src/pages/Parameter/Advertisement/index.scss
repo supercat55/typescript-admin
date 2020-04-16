@@ -1,0 +1,90 @@
+.container {
+  width: 75%;
+  margin: 20px auto;
+  .content {
+    margin-top: 50px;
+    .radioGroup {
+      width: 120%;
+      display: flex;
+      flex-wrap: wrap;
+      .radioItem {
+        width: 50%;
+        padding-right: 10%;
+        label {
+          width: 100%;
+        }
+        img {
+          width: 207px;
+          height: 83px;
+        }
+      }
+    }
+  }
+
+  .result {
+    background:rgba(245,245,245,0.50);
+    margin-top: 20px;
+    padding: 20px;
+    font-size: 16px;
+  }
+}
+
+.one {
+  width: 100%;
+  :global {
+    .ad-upload-item-1,
+    .ad-upload-image-1 {
+      width: 690px;
+      height: 246px;
+    }
+    .ant-upload {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.two {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  :global {
+    .ad-upload-item-1,
+    .ad-upload-item-2,
+    .ad-upload-image-1,
+    .ad-upload-image-2 {
+      width: 337px;
+      height: 276px;
+    }
+    .ant-upload {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.three {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  :global {
+    .ad-upload-item-1,
+    .ad-upload-image-1 {
+      width: 330px;
+      height: 276px;
+    }
+    .ad-upload-item-2,
+    .ad-upload-item-3,
+    .ad-upload-image-2,
+    .ad-upload-image-3 {
+      width: 344px;
+      height: 130px;
+    }
+    .ant-upload {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

@@ -1,14 +1,35 @@
 import React, { PureComponent } from 'react';
 import { Menu, Dropdown, Icon, Avatar } from 'antd';
-// import { GetAccountInfo } from '@/utils/cache';
 import styles from './index.scss';
+import { SelectParam } from 'antd/es/menu';
 
-class GlobalHeaderRight extends PureComponent {
+export interface GlobalHeaderRightProps {
+  baseUserInfo: any;
+  currentOrganizeName: string;
+  currentName: string;
+  onMenuClick: (param: SelectParam) => void;
+  onMenuMerchantClick: (param: any) => void;
+}
+
+class GlobalHeaderRight extends PureComponent<GlobalHeaderRightProps, any> {
+  renderSwitchMenu = list => {
+    const { onMenuMerchantClick } = this.props;
+
+    return (
+      <Menu onClick={onMenuMerchantClick}>
+        {list.map(item => (
+          <Menu.Item key={item.merchantId}>{item.merchantName}</Menu.Item>
+        ))}
+      </Menu>
+    )
+  }
+
   render() {
-    // const { onMenuClick } = this.props;
-      
+    const { baseUserInfo, currentOrganizeName, currentName, onMenuClick } = this.props;
+    const { loginType, listMerchant } = baseUserInfo;
+
     const menu = (
-      <Menu onClick={() => {}}>
+      <Menu onClick={onMenuClick}>
         <Menu.Item key="mdify">
           <Icon type="edit" />
           <span>修改密码</span>
@@ -22,10 +43,24 @@ class GlobalHeaderRight extends PureComponent {
 
     return (
       <div className={styles.right}>
-        <Dropdown overlay={menu}>
+        {
+          loginType === 'merchant' && listMerchant && listMerchant.length ?
+          <Dropdown
+            trigger={['click', 'hover']}
+            overlay={this.renderSwitchMenu(listMerchant)}
+          >
+            <span className={styles.name}>
+              {currentOrganizeName}
+              <Icon type="down" />
+            </span>
+          </Dropdown> :
+          <span className={styles.name}>{currentOrganizeName}</span>
+        }
+        <Dropdown overlay={menu}  trigger={['click', 'hover']}>
           <span className={`${styles.action} ${styles.account}`}>
+            {/* <span className={styles.name}>{currentOrganizeName}</span> */}
             <Avatar icon="user" size="small"/>
-            {/* <span className={styles.name}>{GetAccountInfo().nickName}</span> */}
+            <span className={styles.name}>{currentName}</span>
           </span>
         </Dropdown>
       </div>

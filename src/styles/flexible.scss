@@ -7,15 +7,15 @@
 }
 
 [layout=column] {
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-flex-direction: column;
+  -ms-flex-direction: column!important;
+  flex-direction: column!important;
+  -webkit-flex-direction: column!important;
 }
 
 [layout=row] {
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-direction: row;
+  -ms-flex-direction: row!important;
+  flex-direction: row!important;
+  -webkit-flex-direction: row!important;
 }
 
 [layout-align="center"],

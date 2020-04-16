@@ -1,0 +1,98 @@
+@media print {
+  .header {
+    display: none;
+  }
+  .content {
+    color: #000 !important; 
+    page-break-after: always;
+  }
+}
+
+.container {
+  width: 100%;
+  color: #000;
+  .header {
+    padding: 80px;
+    border-bottom: 1px solid #E8E8E8;
+    .uploadBtn {
+      width: 127px;
+      display: inline-block;
+      border: 1px solid #1890FF;
+      border-radius: 4px;
+      color: #1890FF;
+      font-size: 14px;
+      line-height: 24px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .uploadTips {
+      margin-left: 16px;
+      font-size: 14px;
+      color: rgba(0,0,0,0.25);
+    }
+  }
+}
+
+.content {
+  margin-top: 20px;
+  margin: 0 auto;
+  .subInfo {
+    position: relative;
+    padding: 20px 5px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 30px;
+    .firstRow {
+      position: relative;
+      text-align: center;
+      .title {
+        font-size: 16px;
+      }
+      .no {
+        position: absolute;
+        right: 0;
+      }
+    }
+    .secondRow  {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chapterImage {
+      position: absolute;
+      top: -100px;
+      left: 0;
+      width: 196px;
+      height: 196px;
+    }
+  }
+
+  .table {
+    width: 100%;
+    position: relative;
+    thead,tr,th,td {
+      border: 1px solid #000;
+      font-weight: bold;
+      padding: 6px;
+    }
+  }
+  &.middle {
+    width: 96%;
+  }
+  &.small {
+    width: 96%;
+    .subInfo {
+      line-height: 18px;
+      padding: 2px 5px 2px;
+    }
+    .table {
+      line-height: 18px;
+      padding: 2px 5px 2px;
+    }
+    th,
+    td {
+      padding: 2px !important;
+      font-size: 12px;
+    }
+  }
+}

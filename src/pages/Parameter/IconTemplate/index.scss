@@ -1,0 +1,30 @@
+.transferItem {
+  // height: 22px;
+  img{
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.appContent {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #d0d0d0;
+  .item {
+    flex-shrink: 0;
+    width: 25%;
+    text-align: center;
+    padding-left: 15px;
+    margin-bottom: 15px;
+    img {
+      padding: 25%;
+      width: 100%;
+    }
+  }
+}
+
+.newButton {
+  width: 100%;
+  height: 248px;
+}

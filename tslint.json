@@ -1,0 +1,22 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint-react",
+    "tslint-eslint-rules"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**"
+    ]
+  },
+  "rules": {
+    "no-console": false,
+    "eofline": true,
+    "no-construct": true,
+    "no-debugger": true,
+    "no-reference": true,
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false,
+    "jsx-boolean-value": false
+  }
+}

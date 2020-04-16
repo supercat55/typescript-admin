@@ -1,172 +1,199 @@
+import { Reducer } from 'redux';
 import { routerRedux } from 'dva/router';
-import { queryUserLogin, queryAdminLogin, queryUpdateToken } from '@/services/login';
-import { IDENTITU_TYPE } from '@/utils/const';
-import { 
-  SetIdentityType, 
-  SetGlobalToken,
-  SetPropertyInfo,
-  SetGardenInfo,
-  SetCompanyInfo
-} from '@/utils/cache';
+import { delay } from 'dva/saga';
+import { Effect } from 'dva';
 import { message } from 'antd';
+import { 
+  sendLogin, 
+  sendeLogout, 
+  sendChangeMerchant,
+  queryCaptchKey, 
+  queryCaptchImage, 
+  sendValidateCaptch, 
+  sendChangePassword,
+  sendFindPassword, 
+  sendResetPassword,
+  sendSMSCode 
+} from '@/services/login';
+import { BlobToBase64 } from '@/utils/utils';
+import { SetGlobalToken, SetAccountInfo, RemoveAllStorage } from '@/utils/cache';
 
-export default {
+export interface StateType {
+  captchaKey?: string;
+  captchaImage?: string;
+}
+
+export interface LoginModelType {
+  namespace: string;
+  state: StateType;
+  effects: {
+    login: Effect;
+    logout: Effect;
+    changeMerchant: Effect;
+    getCaptchaKey: Effect;
+    getCaptchaImage: Effect;
+    validateCaptch: Effect;
+    sendVcode: Effect;
+    changePassword: Effect;
+    findPassword: Effect;
+    restPassword: Effect;
+  };
+  reducers: {
+    saveCaptchaInfo: Reducer<StateType>;
+  };
+}
+
+const Model: LoginModelType =  {
   namespace: 'login',
 
   state: {
-    
+    captchaKey: '',
+    captchaImage: null,
   },
 
   effects: {
-    *userLogin({ payload }, { call, put } ) {
-      let response = yield call(queryUserLogin, payload);
+    *login({ payload }, { call, put }) {
+      let result = yield call(sendLogin, payload);
+      
+      const { response, data } = result
 
-      if (response && Number(response.code) === 200) {
-        const { login_type } = payload;
-        const { user_info, property_list = [], garden_list = [], company_list = [] } = JSON.parse(response.data)
+      if (data && data.code === 200) {
+        SetAccountInfo(data.data);
+        
+        const { loginCount } = data.data;
 
-        SetGlobalToken(user_info.token)
-        // 园区登录
-        if (login_type === '1') {
-          // 园区超级管理员身份
-          if (property_list.length === 1 && garden_list.length === 0) {
-            let temp = property_list[0];
-
-            temp && savePropertyInfo(temp);
-
-            yield put({
-              type: 'updateToken',
-              payload: {
-                token: user_info.token,
-                role_id: temp.role_id,
-                property_id: temp.id,
-              },
-              pathname: '/garden'
-            })
-          } 
-          // 园区普通管理员身份
-          else if(property_list.length === 0 && garden_list.length === 1) {
-            let temp = garden_list[0];
-
-            temp && saveGardenInfo(temp);
-          } 
-          // 园区端混合身份
-          else if(property_list.length > 1 || garden_list.length > 1) {
-
+        if (loginCount === 0) {
+          message.success('登陆成功，由于您首次登录，请先重置登录密码');
+          
+          yield put(routerRedux.replace(`/login/reset-password/${data.data.userId}`));
+        } else {
+          if (response.headers.get('token')) {
+            SetGlobalToken(response.headers.get('token'));
           }
-        } 
-        // 企业登录
-        else if(login_type === '2') {
-          // 企业管理员
-          if (company_list.length === 1) {
-            let temp = company_list[0];
-
-            temp && saveCompanyInfo(temp);
-          }
-          // 多个企业身份管理员
-          else if(company_list.length > 1) {
-
-          }
+          
+          message.success('登录成功');
+          
+          yield delay(1000);
+          
+          yield put(routerRedux.replace('/home'));
         }
       }
     },
-    *adminLogin({ payload }, { call, put } ) {
-      let response = yield call(queryAdminLogin, payload);
+    *logout({ payload }, { call, put }) {
+      let response = yield call(sendeLogout, payload);
 
       if (response && response.code === 200) {
-        const token = response.data && response.data.user_info ? response.data.user_info.token : '';
+        message.success('登出成功');
 
-        if (token) {
-          let identity: number = IDENTITU_TYPE['admin'];
-
-          SetIdentityType(identity);
-  
-          SetGlobalToken(token); 
-
-          yield put(
-            routerRedux.push({
-              pathname: '/property',
-            })
-          )
-        } else {
-          message.error('缺少token');
-        }
+        RemoveAllStorage();
+        
+        yield put(routerRedux.replace('/login'));
       }
     },
-    *updateToken({ payload, pathname }, { call, put }) {
-      let response = yield call(queryUpdateToken, payload);
+    *changeMerchant({ payload }, { call }) {
+      let result = yield call(sendChangeMerchant, payload);
 
-      if (response && Number(response.code) === 200) {
+      const { response, data } = result
+
+      if (data && data.code === 200) {
+        if (response.headers.get('token')) {
+          SetGlobalToken(response.headers.get('token'));
+        }
+        yield delay(1000);
         
-        yield put(
-          routerRedux.push({
-            pathname
-          })
-        )
+        return true
       }
-    }
+    },
+    *getCaptchaKey(_, { call, put }) {
+      const response = yield call(queryCaptchKey);
+
+      if (response && response.code === 200) {
+        yield put({
+          type: 'getCaptchaImage',
+          payload: {
+            id: response.data,
+          }
+        });
+      }
+    },
+    *getCaptchaImage({ payload }, { call, put }) {
+      const response = yield call(queryCaptchImage, payload);
+      const captchaImage = yield BlobToBase64(response);
+
+      yield put({
+        type: 'saveCaptchaInfo',
+        payload: {
+          captchaKey: payload.id,
+          captchaImage
+        }
+      });
+    },
+    *validateCaptch({ payload }, { call }) {
+      const response = yield call(sendValidateCaptch, payload);
+
+      if (response && response.code === 200) {
+        return true
+      }
+    },
+    *sendVcode({ payload }, { call }) {
+      const response = yield call(sendSMSCode, payload);
+
+      if (response && response.code === 200) {
+        return true
+      }
+    },
+    *changePassword({ payload }, { call, put }) {
+      let response = yield call(sendChangePassword, payload);
+
+      if (response && response.code === 200) {
+        
+        message.success('修改密码成功');
+        
+        RemoveAllStorage();
+
+        yield put({
+          type: 'global/changePasswordModalVisible',
+          payload: false
+        });
+
+        yield put(routerRedux.replace('/login'));
+      }
+    },
+    *findPassword({ payload }, { call, put }) {
+      let response = yield call(sendFindPassword, payload);
+
+      if (response && response.code === 200) {
+        message.success('验证用户成功，请输入新密码');
+        SetAccountInfo(response.data);
+
+        yield delay(1000);
+          
+        yield put(routerRedux.replace('/home'));
+      }
+    },
+    *restPassword({ payload }, { call, put }) {
+      let response = yield call(sendResetPassword, payload);
+
+      if (response && response.code === 200) {
+        message.success('重置密码成功');
+
+        RemoveAllStorage();
+        
+        yield put(routerRedux.replace('/login'));
+      }
+    },
   },
-  
+
   reducers: {
-    saveUserIdentity(state, action) {
-
-
+    saveCaptchaInfo(state, { payload }) {
       return {
-        ...state
-      }
+        ...state,
+        captchaKey: payload.captchaKey,
+        captchaImage: payload.captchaImage,
+      };
     }
   }
 };
 
-const savePropertyInfo = temp => {
-  let identity: number = IDENTITU_TYPE['rootManager'];
 
-  let propertyInfo = {
-    id: temp.id,
-    name: temp.property_name,
-    mobile: temp.phone_num,
-    logoUrl: temp.logoUrl,
-    status: parseInt(temp.is_valid),
-    roleId: temp.role_id
-  }
-
-  SetPropertyInfo(propertyInfo);
-  SetIdentityType(identity);
-};
-
-
-const saveGardenInfo = temp => {
-  let identity: number = IDENTITU_TYPE['gardenManager'];
-
-  let propertyInfo = {
-    id: temp.id,
-    name: temp.property_name,
-    address: [temp.province, temp.city, temp.area],
-    addressDetail: temp.street,
-    addressDesc: temp.province + temp.area + temp.street,
-    status: parseInt(temp.is_valid),
-    propertyId: temp.property_id,
-    doorKey: temp.zj_park_id
-  }
-
-  SetGardenInfo(propertyInfo);
-  SetIdentityType(identity);
-};
-
-const saveCompanyInfo = temp => {
-  let identity: number = IDENTITU_TYPE['companyManager'];
-
-  let propertyInfo = {
-    id: temp.id,
-    name: temp.property_name,
-    address: [temp.province, temp.city, temp.area],
-    addressDetail: temp.street,
-    addressDesc: temp.province + temp.area + temp.street,
-    status: parseInt(temp.is_valid),
-    propertyId: temp.property_id,
-    doorKey: temp.zj_park_id
-  }
-
-  SetCompanyInfo(propertyInfo);
-  SetIdentityType(identity);
-}
+export default Model

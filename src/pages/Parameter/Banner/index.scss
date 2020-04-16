@@ -1,0 +1,8 @@
+.upload {
+  margin-top: 20px;
+  :global {
+    .ant-upload {
+      width: 100%;
+    }
+  }
+}

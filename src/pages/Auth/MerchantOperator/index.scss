@@ -1,0 +1,48 @@
+.modal-container {
+  width: 690px;
+  height: 430px;
+  .title {
+    color: rgba(0, 0, 0, 0.45);
+    line-height: 30px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+  .content {
+    padding: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    height: 400px;
+  }
+}
+
+.result-modal-container {
+  .sub-title {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 14px;
+    line-height: 22px;
+    margin-top: 6px;
+  }
+  .account-info {
+    margin-top: 18px;
+    border-radius: 2px;
+    background: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 558px;
+    height: 118px;
+    .account-info-item {
+      color: rgba(0, 0, 0, 0.85);
+      font-size: 14px;
+      line-height: 22px;
+    }
+    .account-info-desc {
+      color: #FF4949;
+    }
+  }
+}
